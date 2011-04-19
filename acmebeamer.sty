@@ -1,4 +1,4 @@
-% Time-stamp: <2011-02-11 13:44:55 cmauclai>
+% Time-stamp: <2011-04-19 12:51:25 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -672,6 +672,21 @@
 %>>
 %<< [· Blocks ································] >>
 
+\let\blockorig\block
+\let\alertblockorig\alertblock
+\let\exampleblockorig\exampleblock
+\let\endblockorig\endblock
+\let\endalertblockorig\endalertblock
+\let\endexampleblockorig\endexampleblock
+
+\def\acmerestoreblocks{%
+  \let\block\blockorig
+  \let\alertblock\alertblockorig
+  \let\exampleblock\exampleblockorig
+  \let\endblock\endblockorig
+  \let\endalertblock\endalertblockorig
+  \let\endexampleblock\endexampleblockorig}
+
 %<< — macros{defineblock, defineblocks} · — >>
 
 % \pgfkeys{/blocks/.is family}
@@ -914,6 +929,13 @@
     {\unittriangle[fill, scale=4, yshift=.25]}
   \setbeamertemplate{itemize subsubitem}
     {\unittriangle[fill, scale=3, yshift=.3333]}}
+
+\defbeamertemplate*{itemize item}{acme}
+  {\unitsquare[fill, scale=5, rounded corners=1, yshift=.2]}
+\defbeamertemplate*{itemize subitem}{acme}
+  {\unittriangle[fill, scale=4, rounded corners=.2, yshift=.25]}
+\defbeamertemplate*{itemize subsubitem}{acme}
+  {\unittriangle[draw, scale=3, rounded corners=.2, yshift=.3333]}
 
 %>>
 %<< [· Enumerate ·····························] >>
