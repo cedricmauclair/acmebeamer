@@ -1,4 +1,4 @@
-% Time-stamp: <2011-04-20 14:49:06 cmauclai>
+% Time-stamp: <2011-04-20 16:23:33 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -804,8 +804,11 @@
       {\csname dodo\current block\endcsname{\noexpand##1}}
       {\csname dodo\current block\endcsname{\noexpand##1}[]}}%
   \@EA\long\@EA\def\csname dodo\current block\endcsname##1[##2]{%
-    \begingroup%
-    \raggedright%
+    \blank[half]
+    \begingroup
+    \raggedright
+    \addtobeamertemplate{itemize/enumerate body begin}{\fixvspacehard}{}%
+    \addtobeamertemplate{itemize/enumerate body end}{}{\fixvspacehard}%
     \setupblock[#1][##2]%
     % [·adjust size of text: width, height & depth·]
     \evalasdimen\blockswd{\getvalue{#1blockwidth}}
@@ -846,7 +849,6 @@
            customframe=\getvalue{#1blocktitlecustomframe},
            custombackground=\getvalue{#1blocktitlecustombackground},
            frame=on, background=on]
-          \parskip=0pt
           \usefgorcolor{\getvalue{#1blocktitlecolor}}%
           \getvalue{#1blocktitlestyle}%
           \insidestrut\insertblocktitle
@@ -863,13 +865,16 @@
         \vskip-\parskip\box\blockstitlebox
         \ifx\insertblocktitle\@empty\else\vskip-\parskip\fi
         \box\blocksbodybox
-     \end{framedtext}%
-   \acmeblocksright\vrule width0pt
-   \endgroup}}
+      \end{framedtext}%
+    \acmeblocksright\vrule width0pt
+    \endgroup
+    \blank[half]
+}}
 
 %>>
 
-\def\fixvspace{\blank[-1*line, -1*half]}
+\def\fixvspace{\vskip-0.5\topsep}
+\def\fixvspacehard{\kern-0.5\topsep}
 
 \let\block\relax
 \let\alertblock\relax
@@ -1289,8 +1294,6 @@
 
 \def\plain@fonts{
   \setbeamerfont{normal text}{size=\normalsize}
-  \parskip=1\baselineskip plus.5\baselineskip minus.5\baselineskip
-  % \parskip=.5\baselineskip plus1fill minus.5\baselineskip
   \setbeamerfont{emphasis}{series=\bfseries}
 
   \setbeamerfont{alerted text}{series=\bfseries}
