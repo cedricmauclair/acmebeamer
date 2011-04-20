@@ -66,7 +66,7 @@
 
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
-\acmerestoreblocks
+\usebeamerblocks
 
 %>>
 %<< [· Handy commands ·] >>
@@ -267,7 +267,7 @@
 \subsection{Blocks on steroids}
 
 \begin{frame}[fragile]
-  {\subsecname \slide 1 of 3}
+  {\subsecname \slide 1 of 2}
   {General overview}
 
   \begin{itemize}
@@ -305,7 +305,7 @@
 
 
 \begin{frame}
-  {\subsecname \slide 2 of 3}
+  {\subsecname \slide 2 of 2}
   {New and customized blocks}
 
   \begin{itemize}
@@ -331,33 +331,6 @@
 
   \vfill
   See previous page for available options.
-
-\end{frame}
-
-
-\begin{frame}[fragile]
-  {\subsecname \slide 3 of 3}
-  {Bad interaction between text and lists}
-
-  Use \cs{fixvspace} around lists to prevent bad interactions with text
-  inside blocks.
-
-  \vfill
-  \begin{exampleblock}{Example}
-    \kern-2ex
-\begin{semiverbatim}
-\\begin\marg{block}\marg{Nice title}\oarg{color=yellow}
-  Blah, blah, blah…
-  \\fixvspace
-  \\begin\marg{itemize}
-    \\item one
-    \\item two
-  \\end\marg{itemize}
-  \\fixvspace
-  Blah, blah, blah…
-\\end\marg{block}
-\end{semiverbatim}
-  \end{exampleblock}
 
 \end{frame}
 
