@@ -1,4 +1,4 @@
-% Time-stamp: <2011-04-20 16:23:33 cmauclai>
+% Time-stamp: <2011-04-20 16:40:49 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -1578,13 +1578,17 @@
     \end{tikzpicture}}
     \let\bibliographyorig\bibliography
     \def\bibliography##1{%
-      \begin{center}
-        \begin{tikzpicture}
-          \usebeamercolor{bibliography structure}
-          \node [draw=fg!30!bg, fill=bg, rounded corners=2pt]
-            {\parbox{0.95\textwidth}{\bibliographyorig{##1}\vskip2mm}};
-        \end{tikzpicture}
-      \end{center}}}
+      \begin{block}
+        [bodyoptions={offset=0pt},
+         frameoptions={%
+           topoffset=1ex,  bottomoffset=1.5ex,
+           leftoffset=1em, rightoffset=1em,
+           tikzoptions={%
+             draw=normal text.fg!30!darkyellow,
+             fill=darkyellow,
+             rounded corners=2pt}}]
+        \bibliographyorig{##1}
+      \end{block}}}
 
 %>>
 
