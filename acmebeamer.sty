@@ -689,14 +689,6 @@
 \let\endalertblockorig\endalertblock
 \let\endexampleblockorig\endexampleblock
 
-\def\acmerestoreblocks{%
-  \let\block\blockorig
-  \let\alertblock\alertblockorig
-  \let\exampleblock\exampleblockorig
-  \let\endblock\endblockorig
-  \let\endalertblock\endalertblockorig
-  \let\endexampleblock\endexampleblockorig}
-
 %<< — macros{defineblock, defineblocks} · — >>
 
 % \pgfkeys{/blocks/.is family}
@@ -1443,6 +1435,13 @@
 \defineblock [alert]   [color=alerted text]
 \defineblock [example] [color=example text]
 
+\let\blockacme\block
+\let\alertblockacme\alertblock
+\let\exampleblockacme\exampleblock
+\let\endblockacme\endblock
+\let\endalertblockacme\endalertblock
+\let\endexampleblockacme\endexampleblock
+
 \setbeamercolor{defaultblockitems}{parent=structure}%, fg=structure.fg!70}
 \setbeamercolor{alertblockitems}{parent=alerted text}%, fg=alerted text.fg!70}
 \setbeamercolor{exampleblockitems}{parent=example text}%, fg=example text.fg!70}
@@ -1553,9 +1552,53 @@
     {\unittriangle[fill, scale=4, rounded corners=.2, yshift=.25]}
   \setbeamertemplate{itemize subsubitem}
     {\unittriangle[draw, scale=3, rounded corners=.2, yshift=.3333]}
-}
+  \setbeamertemplate{bibliography item}{%
+    \begin{tikzpicture}[rounded corners=1pt, x=9mm, y=9mm]
+      \useasboundingbox (0, 0.2) rectangle (0.5, 0.7);
+      \path [fill=bg!85!blue]
+        (0, 0.25) rectangle (0.4, 0.5);
+      \path [shade, bottom color=bg, top color=bg!85!blue]
+        (0, 0) -- (0.3, 0) -- (0.4, 0.12) -- (0.4, 0.3) -- (0, 0.3) -- cycle;
+      \path [shade, left color=bg, right color=bg!85!blue]
+        (0,0.27) .. controls (0.25,0.25) .. (0.4,0.5) -- (0,0.5) -- cycle;
+      \path [fill=bg!90!blue]
+        (0,0) rectangle (0.3,0.05);
+      \path [shade, left color=bg!95!blue, right color=bg!90!blue]
+        (0,0) rectangle (0.05,0.5);
+      \path [shade, left color=bg,right color=bg!80!black, shading angle=45]
+        (0.3,0) -- (0.3,0.12) -- (0.4,0.12) -- cycle;
+      \path [draw=fg!35!bg]
+        (0,0) -- (0.3,0) -- (0.4,0.12) -- (0.4,0.5) -- (0,0.5) -- cycle;
+      \path [draw=fg!35!bg]
+        (0.3,0) -- (0.3,0.12) -- (0.4,0.12);
+    \end{tikzpicture}}
+    \let\bibliographyorig\bibliography
+    \def\bibliography##1{%
+      \begin{center}
+        \begin{tikzpicture}
+          \usebeamercolor{bibliography structure}
+          \node [draw=fg!30!bg, fill=bg, rounded corners=2pt]
+            {\parbox{0.95\textwidth}{\bibliographyorig{##1}\vskip2mm}};
+        \end{tikzpicture}
+      \end{center}}}
 
 %>>
+
+\def\usebeamerblocks{%
+  \let\block\blockorig
+  \let\alertblock\alertblockorig
+  \let\exampleblock\exampleblockorig
+  \let\endblock\endblockorig
+  \let\endalertblock\endalertblockorig
+  \let\endexampleblock\endexampleblockorig}
+
+\def\useacmeblocks{%
+  \let\block\blockacme
+  \let\alertblock\alertblockacme
+  \let\exampleblock\exampleblockacme
+  \let\endblock\endblockacme
+  \let\endalertblock\endalertblockacme
+  \let\endexampleblock\endexampleblockacme}
 
 \let\secname\@empty
 \let\subsecname\@empty
