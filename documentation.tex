@@ -1,0 +1,427 @@
+\documentclass[utf8, a4paper]{beamer}
+
+\usepackage[english] {babel}
+\usepackage[T1]      {fontenc}
+\usepackage{booktabs, ifthen, verbatim}
+
+\usepackage{acmebeamer, lmodern}
+
+\usepackage{tikz}
+\usetikzlibrary[shapes.geometric]
+
+%<< [· Theme customs  ·] >>
+
+\leftmargini4mm
+\leftmarginii4mm
+\leftmarginiii4mm
+
+\definecolor{black}{RGB}{17,11,4}
+\definecolor{white}{RGB}{253,252,254}
+\definecolor{grey}{gray}{0.35}
+
+\colorlet{red}{red!60!black}
+\colorlet{green}{green!90!grey}
+\definecolor{blue}{RGB}{0,89,127}
+
+\definecolor{orange}{RGB}{188,90,18}
+\definecolor{yellow}{rgb}{0.6,0.6,0.0}
+
+\setbeamercolor{normal text}{fg=black, bg=white}
+\setbeamercolor{structure}{fg=blue}
+\setbeamercolor{alerted text}{fg=orange}
+
+\setbeamercolor{author}{fg=grey}
+\setbeamercolor{institute}{fg=grey}
+\setbeamercolor{date}{fg=grey}
+\setbeamercolor{framesubtitle}{fg=grey}
+\setbeamercolor{subsection in toc}{fg=grey}
+
+\setbeamerfont{author}{size=\large}
+\setbeamerfont{date}{size=\large}
+
+\setbeamerfont{alerted text}{series=\bfseries}
+\setbeamerfont{example text}{series=\bfseries}
+\setbeamerfont{emphasis}{series=\mdseries, shape=\slshape}
+
+\setbeamerfont{title}{series=\bfseries,size=\LARGE}
+\setbeamerfont{subtitle}{series=\bfseries,size=\Large}
+
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamerfont{framesubtitle}{series=\mdseries,size=\large}
+\setbeamerfont{section}{series=\bfseries}
+
+\setbeamerfont{block title}{series=\bfseries}
+\setbeamerfont{block title alerted}{parent=block title}
+\setbeamerfont{block title example}{parent=block title}
+
+\setbeamerfont{section in toc}{size=\normalsize, series=\bfseries}
+\setbeamerfont{subsection in toc}{size=\small}
+
+\setbeamertemplate{section in toc}[default]
+\setbeamertemplate{items}[default]
+\setbeamertemplate{itemize subitem}[acme]
+\setbeamertemplate{navigation symbols}{}
+
+\def\slide#1 of#2{\hfill{\normalsize(#1/#2)}\hfillneg}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\acmerestoreblocks
+
+%>>
+%<< [· Handy commands ·] >>
+
+\newcommand*\vfillneg{\vskip0pt plus-1fill}
+\newcommand*\hfillneg{\hskip0pt plus-1fill}
+
+\newcommand*\BibTeX{BibTeX}
+\newcommand*\cls[1]{\textsf{#1}}
+\newcommand*\cs[1]{\texttt{\char`\\#1}}
+\newcommand*\meta[1]{\ensuremath{\langle}{\em#1}\ensuremath{\rangle}}
+\newcommand*\marg[1]{\texttt{\char`\{#1\char`\}}}
+\newcommand*\oarg[1]{\texttt{[#1]}}
+\newcommand*\benv[1]{\texttt{\char`\\begin\char`\{#1\char`\}}}
+\newcommand*\eenv[1]{\texttt{\char`\\end\char`\{#1\char`\}}}
+\newcommand*\env[2]{\benv{#1}\texttt{#2}\eenv{#1}}
+\newcommand*\pkg[1]{{\rmfamily\itshape #1}}
+\let\type\texttt
+\newcommand*\default[1]{\underbar{#1}}
+
+\renewcommand*\LaTeX{LaTeX}
+\renewcommand*\LaTeXe{LaTeX2e}
+\renewcommand*\TeX{TeX}
+\newcommand*\TikZ{Ti{\it k}Z}
+
+\newcommand*\highlight[1]{{\usebeamercolor[fg]{structure}\bfseries#1}}
+
+\let\bf\bfseries
+\let\bx\bxseries
+\let\sl\slshape
+\let\it\itshape
+\let\tt\ttfamily
+\let\ss\sffamily
+\let\sf\rmfamily
+
+\newcommand\applyto[1]{\hfill{\usebeamercolor[fg]{structure}#1}}
+\newcommand\stack[2][c]{%
+  \let\top\empty\let\bot\empty
+  \ifthenelse{\equal{#1}{t}}{\let\cmd\vtop}{}%
+  \ifthenelse{\equal{#1}{b}}{\let\cmd\vbox}{}%
+  \ifthenelse{\equal{#1}{c}}{%
+    \def\cmd{\vbox to0pt}%
+    \def\top{\vskip-1ex\vss}\let\bot\vss}{}%
+  \setbox0\hbox{\cmd{\top#2\bot}}%
+  \hbox to 0pt{\unhbox0}}
+
+%>>
+
+\begin{document}
+
+\title{Documentation \pkg{acmebeamer}}
+\author{Cédric Mauclair}
+\institute{Onera/DTIM}
+\date{February 7, 2011}
+
+\maketitle
+
+\begin{frame}{Overview}
+  \tableofcontents
+\end{frame}
+
+\section{Minor additions}
+%<< [· Title page         ·] >>
+
+\subsection{Title page}
+
+\begin{frame}[fragile]
+
+  \begin{itemize}
+  \item Use \cs{maketitle} to typeset title page.
+  \item Use \cs{setbeamertemplate} to set title page.
+  \item Use \cs{titlegraphic} to set value of \cs{inserttitlegraphic}.
+  \end{itemize}
+
+  \vfill
+  \begin{itemize}
+  \item
+\begin{semiverbatim}
+\\maketitle\oarg{\meta{options to \\setuptitlepage\oarg{…}}}
+          \oarg{\meta{options to \benv{frame}\oarg{…}}}
+\end{semiverbatim}
+  \item Use \cs{setuptitlepage}\oarg{…} to set options.
+    \begin{itemize}
+    \item \type{lineoffset}: line v-position of default template;
+    \item \type{logo}: \type{institute} or \type{\default{none}};
+    \item \type{customlogo}: set value of \cs{logo}.
+    \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+%>>
+%<< [· Table of contents  ·] >>
+
+\subsection{Table of contents}
+
+\begin{frame}[fragile]
+
+  Use \cs{frametoc} to typeset table of contents. \alert{Beware},
+  optional argument comes \alert{after} frametitle (possibly left
+  empty).
+\begin{semiverbatim}
+\\frametoc\marg{\meta{title}}\oarg{\meta{options to \\tableofcontents\oarg{…}}}
+\end{semiverbatim}
+
+\end{frame}
+
+%>>
+%<< [· Page numbers       ·] >>
+
+\subsection{Page numbers}
+
+\begin{frame}[fragile]
+
+  Use \cs{setuppagenumbers}\oarg{…} to set options.
+  \begin{itemize}
+  \item \type{style}: \type{plain}, \type{boxed} or
+    \type{\default{none}};
+  \item \type{custom}: set value directly.
+  \end{itemize}
+
+\end{frame}
+
+%>>
+%<< [· Head/Footline      ·] >>
+
+\subsection{Head/Footline}
+
+\begin{frame}
+
+  Use \cs{setupheadline}/\cs{setupfootline}\oarg{…} to set options.
+  \begin{itemize}
+  \item \type{left}/\type{center}/\type{right}:
+    (\type{sub})\type{section}, \type{title}, \type{subtitle},
+    \type{author}, \type{date} (all short version), \type{page~numbers}
+    or \type{\default{empty}};
+  \item \{\type{left}|\type{center}|\type{right}\}\type{/subsection}:\\
+    \type{\default{text}} (same as \type{…=subsection}), \type{bullets}
+    or \type{squares};
+  \item \type{frame}: passed to containing \cs{framed}\oarg{…}\marg{…}\\
+    (see extra features at end of document).
+  \end{itemize}
+
+\end{frame}
+
+%>>
+%<< [· Frametitle         ·] >>
+
+\subsection{Frametitle}
+
+\begin{frame}[fragile]
+
+  \begin{itemize}
+  \item \type{frametitle} template modified to reclaim space if no
+    title. Subtitle use space always, empty or not (may change).
+  \item \highlight{New feature: automatic titles.} Enable with
+    \cs{acmeframetitlehack} (included at end of \cs{maketitle}).
+
+  \vfill
+  \item No title provided: subsection if not empty, or else section, or
+    else empty template (with typeset subtitle if provided).
+  \item Title provided: normal behaviour.
+    \begin{enumerate}[$\star$]
+    \item \env{frame}{\marg{\meta{title}}\marg{\meta{subtitle}}…};
+    \item
+\begin{semiverbatim}
+\\begin\marg{frame}
+  \\frametitle\marg{\meta{title}}
+  \\framesubtitle\marg{\meta{subtitle}}
+  …
+\\end\marg{frame}
+\end{semiverbatim}
+    \end{enumerate}
+  \end{itemize}
+
+\end{frame}
+
+%>>
+
+\section{Extra features}
+%<< [· Super itemize      ·] >>
+
+\subsection{S(uper){\tt itemize} environment}
+
+\begin{frame}[fragile]
+
+  \highlight{New environment: choose level of itemization.}
+
+  \vskip\baselineskip
+  Use \env{sitemize}{\oarg{\meta{offset}}…}; can be 1,~2 or~3,
+  {\em relative to current nesting level}.
+
+\end{frame}
+
+%>>
+%<< [· Blocks on steroids ·] >>
+
+\subsection{Blocks on steroids}
+
+\begin{frame}[fragile]
+  {\subsecname \slide 1 of 3}
+  {General overview}
+
+  \begin{itemize}
+  \item Title becomes optional \alert{but still in braces}; then new
+    options
+\begin{semiverbatim}
+\env{\meta{block}}{\marg{\meta{title}}\oarg{\meta{options}}…}.
+\end{semiverbatim}
+
+  \vfill
+  \item {\usebeamercolor[fg]{structure}Options}
+    \begin{itemize}
+    \item \type{width}: set width of block; \applyto{whole block}
+    \item \type{color}: \pkg{xcolor} or \pkg{beamer} color name;
+      \applyto{whole block}
+    \item \type{align}: \type{default}, \type{flushleft},
+      \type{flushright},\\
+      \hskip\leftmarginii \type{center}, \type{top}, \type{bottom},
+      \type{middle} or \verb'{X,Y}'; \applyto{whole block}
+    \item \type{title/bodycolor}: \pkg{xcolor} or \pkg{beamer} color
+      name; \applyto{title/body}
+    \item \type{title/bodystyle}: set style (mostly font);
+      \applyto{title/body}
+    \item \type{title/bodyalign}: see above; \applyto{title/body}
+    \item \type{bodyheight}: set height of body part. \applyto{body}
+    \end{itemize}
+
+  \vfill
+  \item {\usebeamercolor[fg]{structure}Advanced options}\\
+    \type{title/bodycustomframe}, \type{title/bodycustombackground} and
+    \type{title/bodyoptions}, all three passed to \cs{framed}.
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+  {\subsecname \slide 2 of 3}
+  {New and customized blocks}
+
+  \begin{itemize}
+  \item Create with \cs{defineblock}(\type s)%
+    \oarg{\meta{name(,…)}}\oarg{\meta{options}}
+    \begin{itemize}
+    \item \highlight{inherit defaults}: use
+      \cs{defineblock}\oarg{\meta{name}}\oarg{\meta{overide}};
+    \item \highlight{copy a block}: use
+      \cs{defineblock}\oarg{\meta{to}}\oarg{\meta{from}};
+    \item same with plural form, only several new block names.
+    \end{itemize}
+
+  \vfill
+  \item Customize with \cs{setupblock}(\type s)%
+    \oarg{\meta{name(,…)}}\oarg{\meta{options}}
+    \begin{itemize}
+    \item \highlight{set all}: use \cs{setupblocks}\oarg{\meta{options}};
+    \item \highlight{set specific block(s)}: use\\
+      \cs{setupblock}(\type s)\oarg{\meta{name(,…)}}\oarg{\meta{options}}.
+    \end{itemize}
+  \end{itemize}
+
+  \vfill
+  See previous page for available options.
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  {\subsecname \slide 3 of 3}
+  {Bad interaction between text and lists}
+
+  Use \cs{fixvspace} around lists to prevent bad interactions with text
+  inside blocks.
+
+  \vfill
+  \begin{exampleblock}{Example}
+    \kern-2ex
+\begin{semiverbatim}
+\\begin\marg{block}\marg{Nice title}\oarg{color=yellow}
+  Blah, blah, blah…
+  \\fixvspace
+  \\begin\marg{itemize}
+    \\item one
+    \\item two
+  \\end\marg{itemize}
+  \\fixvspace
+  Blah, blah, blah…
+\\end\marg{block}
+\end{semiverbatim}
+  \end{exampleblock}
+
+\end{frame}
+
+%>>
+%<< [· One more thing     ·] >>
+
+\subsection{One more thing}
+
+\begin{frame}[fragile]
+  {\subsecname \slide 1 of 2}
+  {Welcome \type{framed} \& \type{framedtext} from \pkg{acmetoolbox}}
+
+  \begin{itemize}
+  \item Frame small snippets with
+    \stack[t]{%
+      \cs{framed}\oarg{\meta{options}}\marg{…} \&\\
+      \cs{inframe}\oarg{\meta{options}}\marg{…}}
+    \begin{itemize}
+    \item \type{width}, \type{height}\footnote{Can be preceded by
+        \{\type{min}|\type{max}\},
+        e.g.~\type{maxwidth=0.8\cs{textwidth}}.}: dimensions of the box;
+    \item \type{frame}\footnote{Can be preceded by
+        \{\type{left}|\type{right}|\type{top}|\type{bottom}\},
+        e.g.~\type{rightframe=on}.}: \type{on} or \type{off};
+    \item \type{margin}\footnotemark[2]: dimension {\em outside} the
+      box, contribute to \type{width}/\type{height};
+    \item \type{offset}\footnotemark[2]: dimension {\em inside} the box;
+    \item \type{align}: \type{default}, \type{flushleft},
+      \type{flushright}, \type{center}, \type{top}, \type{bottom},\\
+      \hskip\leftmarginii \type{middle} or \verb'{X,Y}';
+    \item \type{left}/\type{right}/\type{top}/\type{bottom}: added
+      material around content;
+    \item \type{customframe}: custom \TikZ\ commands to draw frame;
+    \item \type{custombackground}: custom \TikZ\ commands to draw
+      background;
+    \item \type{tikzoptions}: passed to \type{tikzpicture} environment.
+    \end{itemize}
+
+  \vfill
+  \item Frame larger chunks with
+    \env{framedtext}{\oarg{\meta{options}}…}\\
+    Same options as \cs{framed}, only \type{width} defaults to
+    \verb'\textwidth'.
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  {\subsecname \slide 2 of 2}
+  {Highlight text and pieces of equations conveniently}
+
+  \begin{itemize}
+  \item Use \cs{hl<\meta{spec}>\oarg{\meta{options}}\marg{\meta{text}}}
+    to mark text.
+  \item Use \cs{placehlmark\oarg{\meta{name}}\marg{\meta{text}}} to
+    place a \type{name}d mark.
+  \item Use \cs{hlmarks\oarg{\meta{options}}\marg{\meta{(n1) (n2) …}}}
+    to highlight marks named \type{n1}, \type{n2},~…
+  \end{itemize}
+
+\end{frame}
+
+%>>
+
+
+\end{document}
