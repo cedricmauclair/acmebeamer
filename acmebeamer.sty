@@ -1,4 +1,4 @@
-% Time-stamp: <2011-04-20 16:40:49 cmauclai>
+% Time-stamp: <2011-04-20 16:49:49 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -1302,10 +1302,10 @@
   \setbeamerfont{structure}{series=\bfseries}
   \setbeamerfont{tiny structure}{size=\tiny}
 
-  \setbeamerfont{headline}{parent={tiny structure}, size=\Tiny,shape=\scshape}
-  \setbeamerfont{footline}{parent={headline}}
+  \setbeamerfont{headline}{parent=tiny structure, size=\Tiny}
+  \setbeamerfont{footline}{parent=headline}
 
-  \setbeamerfont{title}{size=\large,shape=\scshape,series=\bfseries}
+  \setbeamerfont{title}{size=\large,series=\bfseries}
   \setbeamerfont{title in head/foot}{}
   \setbeamerfont{title in sidebar}{size=\tiny}
 
@@ -1354,7 +1354,7 @@
   \setbeamerfont{sidebar left}{parent=sidebar}
   \setbeamerfont{sidebar right}{parent=sidebar}
 
-  \setbeamerfont{frametitle}{parent=structure,size=\Large,shape=\scshape,series=\bfseries}
+  \setbeamerfont{frametitle}{parent=structure,size=\Large,series=\bfseries}
   \setbeamerfont{framesubtitle}{parent=frametitle,size=\normalsize}
 
   \setbeamerfont{caption}{size=\small}
@@ -1370,7 +1370,7 @@
   \setbeamerfont{block title example}{parent={block title,example text}}
   \setbeamerfont{block title example}{parent={block title,example text}}
 
-  \setbeamerfont{item}{parent=structure, size=\footnotesize, shape=\scshape}
+  \setbeamerfont{item}{parent=structure, size=\footnotesize}
   \setbeamerfont{subitem}{parent=item}
   \setbeamerfont{subsubitem}{parent=subitem}
 
