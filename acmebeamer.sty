@@ -1,4 +1,4 @@
-% Time-stamp: <2011-04-19 12:51:25 cmauclai>
+% Time-stamp: <2011-04-20 14:34:17 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -255,6 +255,16 @@
   customlogo/.code=\def\inserttitlegraphic{#1}}
 
 \def\acmeframetitlehack{%
+  \addtobeamertemplate{frametitle}{%
+  \let\insertframetitleorig\insertframetitle
+  \def\insertframetitle{%
+    \ifx\insertframetitleorig\empty
+      \ifx\subsecname\empty
+        \ifx\secname\empty
+        \else\secname\fi
+      \else\subsecname\fi
+    \else\insertframetitleorig\fi
+  }}{}
   \def\beamer@checkframetitle{%
     \doifnextbgroupelse
     \beamer@inlineframetitle
