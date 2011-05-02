@@ -1,4 +1,4 @@
-% Time-stamp: <2011-04-20 16:49:49 cmauclai>
+% Time-stamp: <2011-05-02 12:13:09 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -1457,7 +1457,14 @@
 \defineblock [emphasis] [color=emphasis]
 \setbeamercolor{emphasisblockitems}{parent=emphasis}
 
-%% TODO: use append instead of rewrite
+% Use the following to keep the current values of
+% \{blockname}{title|body|frame}options :
+%
+% \edef\currentoptions{\alertblocktitleoptions}
+% \setupblock[alert][titleoptions={\currentoptions, ...}]
+%
+% This is a bit hackish, but it works. The same goes with
+% \{blockname}{{}|title|body}custom{frame|background}.
 \setupblocks[%
   width=\hsize,
   align=center,
@@ -1467,26 +1474,29 @@
   custombackground=
     {\path [fill] (0,0) rectangle ++(\framedboxwd,-\framedboxht);},
   frameoptions=
-    {offset=0pt,
-     tikzoptions={draw=fg, fill=bg, thick, rounded corners=2pt}},
-  % [·title·]
-  titlecustomframe=none,
-  titlecustombackground=
-    {\path [fill=fg]
-    {[sharp corners] (0,0) -- ++(0,-\framedboxht) -- ++(\framedboxwd,0)}
-    {[rounded corners=2pt] -- ++(0,\framedboxht)  -- cycle};},
-  titleoptions={offset=4pt, bottomoffset=2pt, left=\strut},
-  titlecolor=white,
+    {offset=4pt,
+     tikzoptions={draw=fg, fill=bg, rounded corners=2pt}},
+  titlecustomframe=
+    {\path [draw] (0,-\framedboxht) -- ++(\framedboxwd,0);},
+  titlecustombackground=none,
+  titleoptions={offset=0pt, bottomoffset=1pt,
+                bottommargin=1ex, left=\strut,
+                tikzoptions={draw=fg, line cap=round}},
   titlestyle=\usebeamerfont{block title},
-  titlealign={center},
+  titlealign=default,
   % [·body·]
   bodycustomframe=none,
   bodycustombackground=false,
-  bodyoptions={offset=4pt},
+  bodyoptions={offset=0pt},
   bodycolor=normal text,
   bodystyle=\usebeamerfont{block body},
   bodyheight=-\maxdimen,
   bodyalign={default, middle}]%
+
+\setupblock [default]  [titlecolor=block title]
+\setupblock [alert]    [titlecolor=block title alerted]
+\setupblock [example]  [titlecolor=block title example]
+\setupblock [emphasis] [titlecolor=emphasis]
 
 \let\oldsection\section
 \def\section{\let\subsecname\@empty\oldsection}
