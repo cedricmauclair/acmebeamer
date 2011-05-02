@@ -19,6 +19,9 @@
 % \setbeamertemplate{itemize subsubitem}
 %   {\unittriangle[draw, scale=3, yshift=.5]}
 
+\setupfootline[right=author]
+
+
 \title
   [Short Title\hspace{2em}]
   {Full Title of the Presentation}
@@ -95,22 +98,23 @@
     \end{itemize}
   \end{block}
 
-  \begin{exampleblock}
+  \pause
+  \begin{emphasisblock}
     {Some more block}
 
     Movies only seem to work in Adobe Reader\par
     Movie file is not embedded, it must be on the computer
-  \end{exampleblock}
+  \end{emphasisblock}
+  \pause
 
-  \begin{alertblock}
-
+  \begin{exampleblock}
     Some text in here.
 
-    \begin{itemize}
+    \begin{itemize}[<+->]
     \item Movies only seem to work in Adobe Reader
     \item Movie file is not embedded, it must be on the computer
     \end{itemize}
-  \end{alertblock}
+  \end{exampleblock}
 \end{frame}
 
 
