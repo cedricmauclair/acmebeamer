@@ -1,4 +1,4 @@
-\documentclass[utf8, a4paper]{beamer}
+\documentclass[utf8, a4paper, handout]{beamer}
 
 \usepackage[english] {babel}
 \usepackage[T1]      {fontenc}
@@ -6,20 +6,11 @@
 \usepackage{amsmath, amsfonts, lmodern, graphicx}
 \renewcommand*\rmdefault\sfdefault
 
-\usepackage{acmebeamer, tikz}
-\acmeplaintheme
+\usepackage{acmebeamertheme}
+\usepackage{tikz}
 
-\setbeamersize
-  {text margin left=1em, text margin right=1em}
-
-% \setbeamertemplate{itemize item}
-%   {\unitsquare[fill, scale=4, yshift=.3]}
-% \setbeamertemplate{itemize subitem}
-%   {\unittriangle[fill, scale=4, yshift=.3]}
-% \setbeamertemplate{itemize subsubitem}
-%   {\unittriangle[draw, scale=3, yshift=.5]}
-
-\setupfootline[right=author]
+\setbeamersize{text margin left=1em, text margin right=1em}
+\setupfootline{right=author}
 
 
 \title

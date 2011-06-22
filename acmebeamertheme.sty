@@ -1,0 +1,527 @@
+% Time-stamp: <2011-06-22 14:02:46 cmauclai>
+%
+% Copyright 2010 by Cedric Mauclair
+%
+% This file may be distributed and/or modified
+%
+% 1. under the CCPL Attribution-ShareAlike License
+% (http://creativecommons.org/licenses/by-sa/3.0/legalcode) and/or
+% 2. under the GNU Public License 3 (http://www.gnu.org/licenses/gpl.html).
+%
+% Created by Cedric Mauclair for the 'acme' themes.
+%
+% Latest major version: 4.0
+% Date: 2010-12-20
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ProvidesPackage{acmebeamer}[2011/02/04 Beamer theme tools.]
+% \ProvidesPackageRCS $Header: acmebeamer.sty,v 4.0 2010/12/20 18:00:00 acme Exp$
+
+
+%<< [· Required packages ·····················] >>
+
+\RequirePackage{acmebeamer}
+
+
+\DeclareOption{portrait}{%
+  \@tempdima=\beamer@paperwidth
+  \beamer@paperwidth=\beamer@paperheight
+  \beamer@paperheight=\@tempdima}
+
+\DeclareOption{acmeblocks}{%
+  \AtBeginDocument{\useacmeblocks}}
+
+\DeclareOption{defaultblocks}{%
+  \AtBeginDocument{\usebeamerblocks}}
+
+\ExecuteOptions{acmeblocks}
+
+\ProcessOptions
+
+%>>
+
+%<< [··· colors      ···] >>
+
+% color definitions
+\definecolor{nearlyblack}{RGB}{17,11,4}
+\definecolor{nearlywhite}{RGB}{253,252,254}
+\definecolor{darkorange}{RGB}{188,90,18}
+\definecolor{solidblue}{RGB}{9,51,106}
+\definecolor{softgray}{RGB}{105,105,105}
+\definecolor{darkyellow}{rgb}{.95,.95,.85}
+
+% additional colors
+\colorlet{darkgreen} {green!60!black}
+\colorlet{darkred}   {red!60!black}
+
+% general definitions
+\def\plain@colors{
+  \setbeamercolor{normal text}
+    {fg=gray!30!black,bg=gray!3}
+  \setbeamercolor{structure}
+    {fg=solidblue!80!gray,bg=solidblue!80!gray!5}
+
+  \setbeamercolor{alerted text}
+    {fg=red!60!black, bg=red!60!black!5}
+  \setbeamercolor{example text}
+    {fg=green!40!black, bg=green!40!black!5}
+  \setbeamercolor{emphasis}
+    {fg=darkorange, bg=darkorange!5}
+
+  \setbeamercolor{background canvas}{parent=normal text}
+  \setbeamercolor{background}{parent=background canvas}
+
+  \setbeamercolor{palette primary}{use=structure,fg=structure.fg}
+  \setbeamercolor{palette secondary}{use=structure,fg=structure.fg!75!black}
+  \setbeamercolor{palette tertiary}{use=structure,fg=structure.fg!50!black}
+  \setbeamercolor{palette quaternary}{fg=gray!65!black}
+
+  \setbeamercolor{palette sidebar primary}{use=normal text,fg=normal text.fg}
+  \setbeamercolor{palette sidebar secondary}{use=structure,fg=structure.fg}
+  \setbeamercolor{palette sidebar tertiary}{use=normal text,fg=normal text.fg}
+  \setbeamercolor{palette sidebar quaternary}{use=structure,fg=structure.fg}
+
+  \setbeamercolor{math text}{}
+  \setbeamercolor{math text inlined}{parent=math text}
+  \setbeamercolor{math text displayed}{parent=math text}
+
+  \setbeamercolor{normal text in math text}{}
+
+  \setbeamercolor{local structure}{parent=palette quaternary}
+
+  \setbeamercolor{titlelike}{parent=structure}
+
+  \setbeamercolor{headline}{fg=black}
+  \setbeamercolor{footline}{parent=headline}
+
+  \setbeamercolor{title}{parent=titlelike}
+  \setbeamercolor{title in head/foot}{parent=headline}
+  \setbeamercolor{title in sidebar}{parent=palette sidebar quaternary}
+
+  \setbeamercolor{subtitle}{parent=title}
+  \setbeamercolor{subtitle in head/foot}{parent=title in head/foot}
+
+  \setbeamercolor{author}{fg=gray!45!black}
+  \setbeamercolor{author in head/foot}{parent=headline}
+  \setbeamercolor{author in sidebar}{use=palette sidebar tertiary,fg=palette sidebar tertiary.fg}
+
+  \setbeamercolor{institute}{fg=gray!25!black}
+  \setbeamercolor{institute in head/foot}{parent=headline}
+  \setbeamercolor{institute in sidebar}{use=palette sidebar tertiary,fg=palette sidebar tertiary.fg}
+
+  \setbeamercolor{date}{parent=author}
+  \setbeamercolor{date in head/foot}{parent=headline}
+  \setbeamercolor{date in sidebar}{use=palette sidebar tertiary,fg=palette sidebar tertiary.fg}
+
+  \setbeamercolor{titlegraphic}{}
+
+  \setbeamercolor{part name}{}
+  \setbeamercolor{part title}{parent=titlelike}
+
+  \setbeamercolor{section name}{}
+  \setbeamercolor{section title}{parent=titlelike}
+
+  \setbeamercolor{section in toc}{parent=structure}
+  \setbeamercolor{section in toc shaded}{parent=section in toc}
+  \setbeamercolor{section in head/foot}{parent=headline}
+  \setbeamercolor{section in sidebar}{parent=palette sidebar secondary}
+  \setbeamercolor{section in sidebar shaded}{use=section in sidebar,fg=section in sidebar.fg!40!bg}
+  \setbeamercolor{section number projected}{parent=item projected}
+
+  \setbeamercolor{subsection name}{}
+  \setbeamercolor{subsection title}{parent=titlelike}
+
+  \setbeamercolor{subsection in toc}{parent=local structure}
+  \setbeamercolor{subsection in toc shaded}{parent=subsection in toc}
+  \setbeamercolor{subsection in head/foot}{parent=headline}
+  \setbeamercolor{subsection in sidebar}{parent=palette sidebar primary}
+  \setbeamercolor{subsection in sidebar shaded}{use=subsection in sidebar,fg=subsection in sidebar.fg!40!bg}
+  \setbeamercolor{subsection number projected}{parent={subitem projected}}
+
+  \setbeamercolor{subsubsection in toc}{parent=subsection in toc}
+  \setbeamercolor{subsubsection in toc shaded}{parent=subsubsection in toc}
+  \setbeamercolor{subsubsection in head/foot}{parent=headline}
+  \setbeamercolor{subsubsection in sidebar}{parent=subsection in sidebar}
+  \setbeamercolor{subsubsection in sidebar shaded}{parent=subsection in sidebar shaded}
+  \setbeamercolor{subsubsection number projected}{parent=subsubitem projected}
+
+  \setbeamercolor{sidebar}{}
+  \setbeamercolor{sidebar left}{parent=sidebar}
+  \setbeamercolor{sidebar right}{parent=sidebar}
+
+  \setbeamercolor{logo}{parent=palette secondary}
+
+  \setbeamercolor{frametitle}{parent=titlelike}
+  \setbeamercolor{framesubtitle}{parent=frametitle}
+
+  \setbeamercolor{frametitle right}{parent=frametitle}
+  \setbeamercolor{mini frame}{fg=structure.fg, bg=black!50}
+
+  \setbeamercolor{caption}{}
+  \setbeamercolor{caption name}{parent=structure}
+
+  \setbeamercolor{button}{use=local structure,bg=local structure.fg!50!bg,fg=white}
+  \setbeamercolor{button border}{use=button,fg=button.bg}
+  \setbeamercolor{navigation symbols}{use=local structure,fg=local structure.fg!40!bg}
+  \setbeamercolor{navigation symbols dimmed}{use=local structure,fg=local structure.fg!20!bg}
+  \setbeamercolor{mini frame}{parent=section in head/foot}
+
+  \setbeamercolor{block body}{parent=normal text}
+  \setbeamercolor{block body alerted}{parent=normal text}
+  \setbeamercolor{block body example}{parent=normal text}
+  \setbeamercolor{block title}{parent=structure}
+  \setbeamercolor{block title alerted}{parent=alerted text}
+  \setbeamercolor{block title example}{parent=example text}
+
+  \setbeamercolor{item}{parent=structure}
+  \setbeamercolor{subitem}{parent=item}
+  \setbeamercolor{subsubitem}{parent=subitem}
+
+  \setbeamercolor{item projected}{parent=item,use=item,fg=white,bg=item.fg}
+  \setbeamercolor{subitem projected}{parent=item projected}
+  \setbeamercolor{subsubitem projected}{parent=subitem projected}
+
+  \setbeamercolor{enumerate item}{parent=item}
+  \setbeamercolor{enumerate subitem}{parent=subitem}
+  \setbeamercolor{enumerate subsubitem}{parent=subsubitem}
+
+  \setbeamercolor{itemize item}{parent=item}
+  \setbeamercolor{itemize subitem}{parent=subitem}
+  \setbeamercolor{itemize subsubitem}{parent=subsubitem}
+
+  \setbeamercolor{itemize/enumerate body}{}
+  \setbeamercolor{itemize/enumerate subbody}{}
+  \setbeamercolor{itemize/enumerate subsubbody}{}
+
+  \setbeamercolor{description item}{parent=item}
+
+  \setbeamercolor{bibliography item}{parent=item}
+
+  \setbeamercolor{bibliography structure}{fg=normal text.fg, bg=darkyellow}
+  \setbeamercolor{bibliography entry author}{use=structure,fg=structure.fg}
+  \setbeamercolor{bibliography entry title}{use=normal text,fg=normal text.fg}
+  \setbeamercolor{bibliography entry location}{use=structure,fg=structure.fg!65!bg}
+  \setbeamercolor{bibliography entry note}{use=structure,fg=structure.fg!65!bg}
+
+  \setbeamercolor{separation line}{}
+
+  \setbeamercolor{upper separation line head}{parent=separation line}
+  \setbeamercolor{middle separation line head}{parent=separation line}
+  \setbeamercolor{lower separation line head}{parent=separation line}
+
+  \setbeamercolor{upper separation line foot}{parent=separation line}
+  \setbeamercolor{middle separation line foot}{parent=separation line}
+  \setbeamercolor{lower separation line foot}{parent=separation line}
+
+  \setbeamercolor{abstract}{}
+  \setbeamercolor{abstract title}{parent=structure}
+
+  \setbeamercolor{verse}{}
+
+  \setbeamercolor{quotation}{}
+  \setbeamercolor{quote}{parent=quotation}
+
+  \setbeamercolor{page number in head/foot}{parent=headline, fg=black}
+
+  \setbeamercolor{qed symbol}{parent=structure}
+
+  % personnal additions
+  \setbeamercolor{big box}{parent=structure}
+  \setbeamercolor{title box}{parent=big box}
+  \setbeamercolor{frametoc}{parent=structure}
+}
+
+%>>
+%<< [··· fonts       ···] >>
+
+\def\plain@fonts{
+  \setbeamerfont{normal text}{size=\normalsize}
+  \setbeamerfont{emphasis}{series=\bfseries}
+
+  \setbeamerfont{alerted text}{series=\bfseries}
+  \setbeamerfont{example text}{}
+
+  \setbeamerfont{structure}{series=\bfseries}
+  \setbeamerfont{tiny structure}{size=\tiny}
+
+  \setbeamerfont{headline}{parent=tiny structure, size=\Tiny}
+  \setbeamerfont{footline}{parent=headline}
+
+  \setbeamerfont{title}{size=\large,series=\bfseries}
+  \setbeamerfont{title in head/foot}{}
+  \setbeamerfont{title in sidebar}{size=\tiny}
+
+  \setbeamerfont{subtitle}{parent=title,size=\footnotesize}
+  \setbeamerfont{subtitle in head/foot}{parent=title in head/foot}
+
+  \setbeamerfont{author}{size=\tiny}
+  \setbeamerfont{author in head/foot}{}
+  \setbeamerfont{author in sidebar}{size=\tiny}
+
+  \setbeamerfont{institute}{size=\tiny}
+  \setbeamerfont{institute in head/foot}{}
+  \setbeamerfont{institute in sidebar}{}
+
+  \setbeamerfont{date}{size=\tiny}
+  \setbeamerfont{date in head/foot}{}
+  \setbeamerfont{date in sidebar}{}
+
+  \setbeamerfont{part name}{size=\LARGE}
+  \setbeamerfont{part title}{size=\LARGE,parent=title}
+
+  \setbeamerfont{section name}{size=\Large}
+  \setbeamerfont{section title}{size=\Large,parent=title}
+
+  \setbeamerfont{section in toc}{parent=structure}
+  \setbeamerfont{section in toc shaded}{parent=section in toc}
+  \setbeamerfont{section in head/foot}{}
+  \setbeamerfont{section in sidebar}{size=\tiny}
+  \setbeamerfont{section number projected}{size=\small,parent={section in toc,projected text}}
+
+  \setbeamerfont{subsection name}{size=\large}
+  \setbeamerfont{subsection title}{size=\large,parent=title}
+
+  \setbeamerfont{subsection in toc}{size=\small}
+  \setbeamerfont{subsection in toc shaded}{parent=subsection in toc}
+  \setbeamerfont{subsection in head/foot}{}
+  \setbeamerfont{subsection in sidebar}{}
+
+  \setbeamerfont{subsubsection in toc}{size=\footnotesize}
+
+  \setbeamerfont{subsubsection in toc shaded}{parent=subsubsection in toc}
+  \setbeamerfont{subsubsection in head/foot}{}
+  \setbeamerfont{subsubsection in sidebar}{}
+
+  \setbeamerfont{sidebar}{size=\Tiny,parent={tiny structure}}
+  \setbeamerfont{sidebar left}{parent=sidebar}
+  \setbeamerfont{sidebar right}{parent=sidebar}
+
+  \setbeamerfont{frametitle}{parent=structure,size=\Large,series=\bfseries}
+  \setbeamerfont{framesubtitle}{parent=frametitle,size=\normalsize}
+
+  \setbeamerfont{caption}{size=\small}
+  \setbeamerfont{caption name}{parent={structure,caption}}
+
+  \setbeamerfont{button}{size=\tiny}
+
+  \setbeamerfont{block body}{}
+  \setbeamerfont{block body alerted}{}
+  \setbeamerfont{block body example}{}
+  \setbeamerfont{block title}{size=\large,parent={structure,block body}}
+  \setbeamerfont{block title alerted}{parent={block title,alerted text}}
+  \setbeamerfont{block title example}{parent={block title,example text}}
+  \setbeamerfont{block title example}{parent={block title,example text}}
+
+  \setbeamerfont{item}{parent=structure, size=\footnotesize}
+  \setbeamerfont{subitem}{parent=item}
+  \setbeamerfont{subsubitem}{parent=subitem}
+
+  \setbeamerfont{item projected}{size=\tiny,parent={item,projected text}}
+  \setbeamerfont{subitem projected}{parent=item projected}
+  \setbeamerfont{subsubitem projected}{parent=subitem projected}
+
+  \setbeamerfont{itemize item}{parent=item}
+  \setbeamerfont{itemize subitem}{parent=subitem}
+  \setbeamerfont{itemize subsubitem}{parent=subsubitem}
+
+  \setbeamerfont{enumerate item}{parent=item}
+  \setbeamerfont{enumerate subitem}{parent=subitem}
+  \setbeamerfont{enumerate subsubitem}{parent=subsubitem}
+
+  \setbeamerfont{itemize/enumerate body}{parent=normal text}
+  \setbeamerfont{itemize/enumerate subbody}{parent=itemize/enumerate body}
+  \setbeamerfont{itemize/enumerate subsubbody}{parent=itemize/enumerate subbody}
+
+  \setbeamerfont{description item}{parent=item}
+
+  \setbeamerfont{projected text}{parent={tiny structure}}
+
+  \setbeamerfont{abstract}{size=\small}
+  \setbeamerfont{abstract title}{parent={abstract,structure},size=\normalsize}
+
+  \setbeamerfont{verse}{family=\rmfamily,shape=\itshape}
+
+  \setbeamerfont{quotation}{shape=\itshape}
+  \setbeamerfont{quote}{parent=quotation}
+
+  \setbeamerfont{note page}{size=\small}
+}
+
+%>>
+%<< [··· definitions ···] >>
+
+% [·page numbers·]
+\setuppagenumbers{style=plain}
+
+% [·headline·]
+\setupheadline{%
+  left=title,
+  right=page numbers,
+  frame={%
+    width=\hsize,
+    leftmargin=\leftmargin,
+    rightmargin=\rightmargin,
+    topmargin=2pt,
+    bottommargin=0pt}}
+
+% [·footline·]
+\setupfootline{%
+  left=empty,
+  center=empty,
+  right=empty,
+  frame={
+    width=\hsize,
+    leftmargin=\leftmargin,
+    rightmargin=\rightmargin,
+    topmargin=0pt,
+    bottommargin=1pt}}
+
+% Use the following to keep the current values of
+% \{blockname}{title|body|frame}options :
+%
+% \edef\currentoptions{\alertblocktitleoptions}
+% \setupblock[alert][titleoptions={\currentoptions, ...}]
+%
+% This is a bit hackish, but it works. The same goes with
+% \{blockname}{{}|title|body}custom{frame|background}.
+\setupblocks{%
+  width=\hsize,
+  align=center,
+  % [·outer frame·]
+  customframe=
+    {\path [draw] (0,0) rectangle ++(\framedboxwd,-\framedboxht);},
+  custombackground=
+    {\path [fill] (0,0) rectangle ++(\framedboxwd,-\framedboxht);},
+  frameoptions=
+    {offset=4pt, topoffset=6pt,
+     options={draw=fg!40, fill=bg, thin, rounded corners=2pt}},
+  titlecustomframe=none,
+  titlecustombackground=none,
+  titleoptions={offset=0pt, bottomoffset=1pt,
+                bottommargin=1ex, left=\strut,
+                options={draw=fg, thin, line cap=round}},
+  titlestyle=\usebeamerfont{block title},
+  titlealign=default,
+  % [·body·]
+  bodycustomframe=none,
+  bodycustombackground=false,
+  bodyoptions={offset=0pt},
+  bodycolor=normal text,
+  bodystyle=\usebeamerfont{block body},
+  bodyheight=-\maxdimen,
+  bodyalign={default, middle}}
+
+\let\oldsection\section
+\def\section{\let\subsecname\@empty\oldsection}
+
+
+
+\def\acmeplaintheme{%
+  % [·fonts & colors·]
+  \plain@fonts
+  \plain@colors
+  % [·head/footline·]
+  \setbeamertemplate{headline}[acme]
+  \setbeamertemplate{footline}[acme]
+  % [·title page·]
+  \setbeamertemplate{title page}{%
+    \begin{tikzpicture}[remember picture, overlay]%
+      %% thin line towards the bottom
+      \begingroup
+        \usebeamercolor{structure}
+        \draw [color=fg, very thick]%
+          ([xshift=\leftmargin, yshift=.15\paperheight]
+            current page.south west)%
+          coordinate (reference) -- ++(\hsize,0);
+      \endgroup%
+      %% tilegraphic above that line
+      \node [anchor=south west, inner sep=0pt]%
+        at ([yshift=2pt]reference)%
+        {\usebeamer{institute}\inserttitlegraphic};%
+      %% title(/subtitle) below that line
+      \node [anchor=north west, inner sep=0pt]%
+        at ([yshift=-2pt]reference)%
+        {\vbox\bgroup
+          \hbox{\usebeamer{title}\strut\inserttitle}%
+          \ifx\insertsubtitle\@empty\else
+            \hbox{\usebeamer{subtitle}\strut\insertsubtitle}\fi%
+          \egroup};%
+   \end{tikzpicture}}%
+  % [·frametitle·]
+  \setbeamertemplate{frametitle}[acme]{%
+    \ifbeamer@plainframe\else
+      \framed[frame=top, width=\hsize,
+              offset=0pt, topoffset=2pt,
+              options={draw=fg, fill=normal text.bg, very thick}]%
+      {\vbox\bgroup
+         \hbox to \hsize{\usebeamer{frametitle}%
+           \vrule width0pt height1.2\strutht
+             \ifx\insertframetitle\@empty
+               \ifx\subsecname\@empty
+               \ifx\secname\@empty
+               \else\secname\fi
+               \else\subsecname\fi
+             \else\insertframetitle\fi\hfil}
+         \vskip-.15\baselineskip
+         \hbox to \hsize{\usebeamer{framesubtitle}%
+           \vrule width0pt height1.2\strutht depth\strutdp
+           \insertframesubtitle\hfil}
+       \egroup}\fi}
+  % [·items·]
+  % \let\dododoitem\item
+  % \def\dodoitem{\dododoitem}
+  % \def\doitem{\dodoitem}
+  % \def\item{\afterassignment\doitem
+  %   \parskip=.5\baselineskip minus.5\baselineskip}
+  \setbeamertemplate{itemize item}
+    {\unitsquare[fill, scale=5, rounded corners=1, yshift=.2]}
+  \setbeamertemplate{itemize subitem}
+    {\unittriangle[fill, scale=4, rounded corners=.2, yshift=.25]}
+  \setbeamertemplate{itemize subsubitem}
+    {\unittriangle[draw, scale=3, rounded corners=.2, yshift=.3333]}
+  \setbeamertemplate{bibliography item}{%
+    \begin{tikzpicture}[rounded corners=1pt, x=9mm, y=9mm]
+      \useasboundingbox (0, 0.2) rectangle (0.5, 0.7);
+      \path [fill=bg!85!blue]
+        (0, 0.25) rectangle (0.4, 0.5);
+      \path [shade, bottom color=bg, top color=bg!85!blue]
+        (0, 0) -- (0.3, 0) -- (0.4, 0.12) -- (0.4, 0.3) -- (0, 0.3) -- cycle;
+      \path [shade, left color=bg, right color=bg!85!blue]
+        (0,0.27) .. controls (0.25,0.25) .. (0.4,0.5) -- (0,0.5) -- cycle;
+      \path [fill=bg!90!blue]
+        (0,0) rectangle (0.3,0.05);
+      \path [shade, left color=bg!95!blue, right color=bg!90!blue]
+        (0,0) rectangle (0.05,0.5);
+      \path [shade, left color=bg,right color=bg!80!black, shading angle=45]
+        (0.3,0) -- (0.3,0.12) -- (0.4,0.12) -- cycle;
+      \path [draw=fg!35!bg]
+        (0,0) -- (0.3,0) -- (0.4,0.12) -- (0.4,0.5) -- (0,0.5) -- cycle;
+      \path [draw=fg!35!bg]
+        (0.3,0) -- (0.3,0.12) -- (0.4,0.12);
+    \end{tikzpicture}}
+    \let\bibliographyorig\bibliography
+    \def\bibliography##1{%
+      \begin{block}
+        [bodyoptions={offset=0pt},
+         frameoptions={%
+           topoffset=1ex,  bottomoffset=1.5ex,
+           leftoffset=1em, rightoffset=1em,
+           options={%
+             draw=normal text.fg!30!darkyellow,
+             fill=darkyellow,
+             rounded corners=2pt}}]
+        \bibliographyorig{##1}
+      \end{block}}}
+
+%>>
+
+\acmeplaintheme
+
+
+
+%%% Local Variables:
+%%% TeX-master: "./demo.tex"
+%%% End:
+
