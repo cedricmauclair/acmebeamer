@@ -1,4 +1,4 @@
-% Time-stamp: <2011-06-22 14:08:25 cmauclai>
+% Time-stamp: <2011-06-23 11:02:11 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -96,6 +96,8 @@
   \oldsetbeamersize{#1}
   \leftmargin\beamer@leftmargin
   \rightmargin\beamer@rightmargin
+  \hsize=\dimexpr\paperwidth-\beamer@leftmargin-\beamer@rightmargin\relax
+  \linewidth=\hsize
   \leftmargini\leftmargin
   \leftmarginii\labelsep
   \leftmarginiii\labelsep
@@ -259,7 +261,7 @@
   {logo/.is choice,
    logo/none/.code=\def\inserttitlegraphic{},
    logo/institute/.code=\def\inserttitlegraphic{\insertinstitute},
-   customlogo/.code=\def\inserttitlegraphic{#1}}
+   logo/custom/.code=\def\inserttitlegraphic{#1}}
 
 \def\acmeframetitlehack{%
   \addtobeamertemplate{frametitle}{%
@@ -378,51 +380,51 @@
    %% —————————————————————————————————————————————————— %%
    left/.is choice,
    left/empty/.code=\let\acme@headline@left\@empty,
-   left/page numbers/.code=\let\acme@headline@left\acme@pagenumbers,
-   left/custom/.code=\let\acme@headline@left\acme@headline@left@custom,
+   left/page numbers/.code=\def\acme@headline@left{\acme@pagenumbers},
+   left/custom/.code=\def\acme@headline@left{\acme@headline@left@custom},
    left/predefined/.code=\acme@headline@predefined{left}{#1},
    left/.unknown/.code={%
      \let\acme@headline@left@predefined@key\pgfkeyscurrentname%
      \pgfkeysalso{\pgfkeyscurrentpath/predefined=\acme@headline@left@predefined@key}},
    %%
    left/section/.is choice, left/section/.default=text,
-   left/section/text/.style={/acme/headline/left/predefined=section},
+   left/section/text/.style={/parameters/headline/left/predefined=section},
    left/subsection/.is choice, left/subsection/.default=text,
-   left/subsection/text/.style={/acme/headline/left/predefined=subsection},
+   left/subsection/text/.style={/parameters/headline/left/predefined=subsection},
    left/subsection/bullets/.code=\let\acme@headline@left\acme@headline@subsection@bullets,
    left/subsection/squares/.code=\let\acme@headline@left\acme@headline@subsection@squares,
    %% —————————————————————————————————————————————————— %%
    center/.is choice,
    center/empty/.code=\let\acme@headline@center\@empty,
-   center/page numbers/.code=\let\acme@headline@center\acme@pagenumbers,
-   center/custom/.code=\let\acme@headline@center\acme@headline@center@custom,
+   center/page numbers/.code=\def\acme@headline@center{\acme@pagenumbers},
+   center/custom/.code=\def\acme@headline@center{\acme@headline@center@custom},
    center/predefined/.code=\acme@headline@predefined{center}{#1},
    center/.unknown/.code={%
      \let\acme@headline@center@predefined@key\pgfkeyscurrentname%
      \pgfkeysalso{\pgfkeyscurrentpath/predefined=\acme@headline@center@predefined@key}},
    %%
    center/section/.is choice, center/section/.default=text,
-   center/section/text/.style={/acme/headline/center/predefined=section},
+   center/section/text/.style={/parameters/headline/center/predefined=section},
    center/subsection/.is choice, center/subsection/.default=text,
-   center/subsection/text/.style={/acme/headline/center/predefined=subsection},
+   center/subsection/text/.style={/parameters/headline/center/predefined=subsection},
    center/subsection/bullets/.code=\let\acme@headline@center\acme@headline@subsection@bullets,
    center/subsection/squares/.code=\let\acme@headline@center\acme@headline@subsection@squares,
    %% —————————————————————————————————————————————————— %%
    right/.is choice,
    right/empty/.code=\let\acme@headline@right\@empty,
-   right/page numbers/.code=\let\acme@headline@right\acme@pagenumbers,
-   right/custom/.code=\let\acme@headline@right\acme@headline@right@custom,
+   right/page numbers/.code=\def\acme@headline@right{\acme@pagenumbers},
+   right/custom/.code=\def\acme@headline@right{\acme@headline@right@custom},
    right/predefined/.code=\acme@headline@predefined{right}{#1},
    right/.unknown/.code={%
      \let\acme@headline@right@predefined@key\pgfkeyscurrentname%
      \pgfkeysalso{\pgfkeyscurrentpath/predefined=\acme@headline@right@predefined@key}},
    %%
    right/section/.is choice, right/section/.default=text,
-   right/section/text/.style={/acme/headline/right/predefined=section},
+   right/section/text/.style={/parameters/headline/right/predefined=section},
    right/subsection/.is choice, right/subsection/.default=text,
-   right/subsection/text/.style={/acme/headline/right/predefined=subsection},
-   right/subsection/bullets/.code=\let\acme@headline@right\acme@headline@subsection@bullets,
-   right/subsection/squares/.code=\let\acme@headline@right\acme@headline@subsection@squares}
+   right/subsection/text/.style={/parameters/headline/right/predefined=subsection},
+   right/subsection/bullets/.code=\def\acme@headline@right{\acme@headline@subsection@bullets},
+   right/subsection/squares/.code=\def\acme@headline@right{\acme@headline@subsection@squares}}
 
 \def\setupheadline{\getparameters[headline]}
 
@@ -436,7 +438,9 @@
 
 %>>
 %<< — sections ··········· — >>
+
 \let\acme@headline@section\@empty
+
 %>>
 %<< — subsections ········ — >>
 
@@ -459,9 +463,11 @@
 
 %>>
 %<< — predefined ········· — >>
+
 \def\acme@headline@predefined#1#2{%
   \@EA\def\csname acme@headline@#1\endcsname
     {\usebeamertemplate{#2 in head/foot}}}
+
 %>>
 %<< -- UGLY HACK, BEWARE! IT DOESN'T WORK QUITE RIGHT FOR NOW >>
 
@@ -520,9 +526,11 @@
 
 %>>
 
-\defbeamertemplate{headline}{acme}{
-  \setupframed{margin=0pt}
-  \expandonearg\setupframed{\headlineframe}
+\defbeamertemplate*{headline}{acme}{%
+  \setupframed{width=\paperwidth,
+    topmargin=2pt, bottommargin=0pt,
+    leftmargin=\beamer@leftmargin, rightmargin=\beamer@rightmargin}%
+  \expandonearg\setupframed{\headlineframe}%
   \let\next\@empty
   \ifnum\insertframenumber=1 \else
     \@tempdima=\framed@width
@@ -536,9 +544,9 @@
         \usebeamer{headline}%
         \hbox to \@tempdima{\acme@headline@left\hss}\hskip-\@tempdima
         \hbox to \@tempdima{\hss\acme@headline@center\hss}\hskip-\@tempdima
-        \hbox to \@tempdima{\hss\acme@headline@right}
+        \hbox to \@tempdima{\hss\acme@headline@right}%
       \egroup\egroup
-      \vskip\framed@bottommargin}
+      \vskip\framed@bottommargin}%
     \ifx\acme@headline@left\@empty
     \ifx\acme@headline@center\@empty
     \ifx\acme@headline@right\@empty
@@ -560,49 +568,49 @@
    %% —————————————————————————————————————————————————— %%
    left/.is choice,
    left/empty/.code=\let\acme@footline@left\@empty,
-   left/page numbers/.code=\let\acme@footline@left\acme@pagenumbers,
-   left/custom/.code=\let\acme@footline@left\acme@footline@left@custom,
+   left/page numbers/.code=\def\acme@footline@left{\acme@pagenumbers},
+   left/custom/.code=\def\acme@footline@left{\acme@footline@left@custom},
    left/predefined/.code=\acme@footline@predefined{left}{#1},
    left/.unknown/.code={%
      \let\acme@footline@left@predefined@key\pgfkeyscurrentname%
      \pgfkeysalso{\pgfkeyscurrentpath/predefined=\acme@footline@left@predefined@key}},
    %%
    left/section/.is choice, left/section/.default=text,
-   left/section/text/.style={/acme/footline/left/predefined=section},
+   left/section/text/.style={/parameters/footline/left/predefined=section},
    left/subsection/.is choice, left/subsection/.default=text,
-   left/subsection/text/.style={/acme/footline/left/predefined=subsection},
+   left/subsection/text/.style={/parameters/footline/left/predefined=subsection},
    left/subsection/bullets/.code=\let\acme@footline@left\acme@footline@subsection@bullets,
    left/subsection/squares/.code=\let\acme@footline@left\acme@footline@subsection@squares,
    %% —————————————————————————————————————————————————— %%
    center/.is choice,
    center/empty/.code=\let\acme@footline@center\@empty,
-   center/page numbers/.code=\let\acme@footline@center\acme@pagenumbers,
-   center/custom/.code=\let\acme@footline@center\acme@footline@center@custom,
+   center/page numbers/.code=\def\acme@footline@center{\acme@pagenumbers},
+   center/custom/.code=\def\acme@footline@center{\acme@footline@center@custom},
    center/predefined/.code=\acme@footline@predefined{center}{#1},
    center/.unknown/.code={%
      \let\acme@footline@center@predefined@key\pgfkeyscurrentname%
      \pgfkeysalso{\pgfkeyscurrentpath/predefined=\acme@footline@center@predefined@key}},
    %%
    center/section/.is choice, center/section/.default=text,
-   center/section/text/.style={/acme/footline/center/predefined=section},
+   center/section/text/.style={/parameters/footline/center/predefined=section},
    center/subsection/.is choice, center/subsection/.default=text,
-   center/subsection/text/.style={/acme/footline/center/predefined=subsection},
+   center/subsection/text/.style={/parameters/footline/center/predefined=subsection},
    center/subsection/bullets/.code=\let\acme@footline@center\acme@footline@subsection@bullets,
    center/subsection/squares/.code=\let\acme@footline@center\acme@footline@subsection@squares,
    %% —————————————————————————————————————————————————— %%
    right/.is choice,
    right/empty/.code=\let\acme@footline@right\@empty,
-   right/page numbers/.code=\let\acme@footline@right\acme@pagenumbers,
-   right/custom/.code=\let\acme@footline@right\acme@footline@right@custom,
+   right/page numbers/.code=\def\acme@footline@right{\acme@pagenumbers},
+   right/custom/.code=\def\acme@footline@right{\acme@footline@right@custom},
    right/predefined/.code=\acme@footline@predefined{right}{#1},
    right/.unknown/.code={%
      \let\acme@footline@right@predefined@key\pgfkeyscurrentname%
      \pgfkeysalso{\pgfkeyscurrentpath/predefined=\acme@footline@right@predefined@key}},
    %%
    right/section/.is choice, right/section/.default=text,
-   right/section/text/.style={/acme/footline/right/predefined=section},
+   right/section/text/.style={/parameters/footline/right/predefined=section},
    right/subsection/.is choice, right/subsection/.default=text,
-   right/subsection/text/.style={/acme/footline/right/predefined=subsection},
+   right/subsection/text/.style={/parameters/footline/right/predefined=subsection},
    right/subsection/bullets/.code=\let\acme@footline@right\acme@footline@subsection@bullets,
    right/subsection/squares/.code=\let\acme@footline@right\acme@footline@subsection@squares}
 
@@ -625,9 +633,11 @@
 
 %>>
 
-\defbeamertemplate{footline}{acme}{
-  \setupframed{margin=0pt}
-  \expandonearg\setupframed{\footlineframe}
+\defbeamertemplate*{footline}{acme}{%
+  \setupframed{width=\paperwidth,
+    topmargin=0pt, bottommargin=1pt,
+    leftmargin=\beamer@leftmargin, rightmargin=\beamer@rightmargin}%
+  \expandonearg\setupframed{\footlineframe}%
   \let\next\@empty
   \ifnum\insertframenumber=1 \else
     \@tempdima=\framed@width
@@ -642,19 +652,14 @@
         \usebeamer{footline}%
         \hbox to \@tempdima{\acme@footline@left\hss}\hskip-\@tempdima
         \hbox to \@tempdima{\hss\acme@footline@center\hss}\hskip-\@tempdima
-        \hbox to \@tempdima{\hss\acme@footline@right}
+        \hbox to \@tempdima{\hss\acme@footline@right}%
       \egroup\egroup
-      \vskip\framed@bottommargin}
+      \vskip\framed@bottommargin}%
     \ifx\acme@footline@left\@empty
     \ifx\acme@footline@center\@empty
     \ifx\acme@footline@right\@empty
       \let\next\@empty\fi\fi\fi% nothing to show, then reclaim space
   \fi\next}
-
-%>>
-%<< [· Frametitle ····························] >>
-
-\defbeamertemplate{frametitle}{acme}[1]{#1}
 
 %>>
 
@@ -716,34 +721,15 @@
    alignbox/flushleft/.style={alignbox=right}}
 
 \def\blocksparameters{%
-  width,
-  align,
-  color,
+  width, align, color,
   % frame
-  frame,
-  customframe,
-  background,
-  custombackground,
-  frameoptions,
+  frame, customframe, background, custombackground, frameoptions,
   % title
-  titleframe,
-  titlecustomframe,
-  titlebackground,
-  titlecustombackground,
-  titleoptions,
-  titlecolor,
-  titlestyle,
-  titlealign,
+  titleframe, titlecustomframe, titlebackground, titlecustombackground,
+  titleoptions, titlecolor, titlestyle, titlealign,
   % body
-  bodyframe,
-  bodycustomframe,
-  bodybackground,
-  bodycustombackground,
-  bodyoptions,
-  bodycolor,
-  bodystyle,
-  bodyheight,
-  bodyalign}
+  bodyframe, bodycustomframe, bodybackground, bodycustombackground,
+  bodyoptions, bodycolor, bodystyle, bodyheight, bodyalign}
 
 \def\defineblocks{\dodoubleargumentwithset\dodefineblock}
 
@@ -937,13 +923,6 @@
   \setbeamertemplate{itemize subsubitem}
     {\unittriangle[fill, scale=3, yshift=.3333]}}
 
-\defbeamertemplate*{itemize item}{acme}
-  {\unitsquare[fill, scale=5, rounded corners=1, yshift=.2]}
-\defbeamertemplate*{itemize subitem}{acme}
-  {\unittriangle[fill, scale=4, rounded corners=.2, yshift=.25]}
-\defbeamertemplate*{itemize subsubitem}{acme}
-  {\unittriangle[draw, scale=3, rounded corners=.2, yshift=.3333]}
-
 %>>
 %<< [· Enumerate ·····························] >>
 
@@ -1082,6 +1061,8 @@
 
 %>>
 
+%<< [· color utilities ·······················] >>
+
 \def\usefgorcolor#1{%
   \ifbeamercolorempty[fg]{#1}%
   {\definecolor{fg}{named}{#1}\color{#1}}%
@@ -1098,9 +1079,9 @@
 \setbeamercolor {exampleblockitems} {parent=example text}%, fg=example text.fg!70}
 \setbeamercolor {emphasisblockitems}{parent=emphasis}
 
+%>>
+%<< [· blocks ································] >>
 
-
-% [·blocks·]
 \defineblock [default]  [color=structure,    titlecolor=block title]
 \defineblock [alert]    [color=alerted text, titlecolor=block title alerted]
 \defineblock [example]  [color=example text, titlecolor=block title example]
@@ -1146,10 +1127,12 @@
     \let\endalertblock\endalertblockacme
     \let\endexampleblock\endexampleblockacme}}
 
+%>>
+
 \let\secname\@empty
 \let\subsecname\@empty
 
 
 %%% Local Variables:
-%%% TeX-master: "./demo.tex"
+%%% TeX-master: "./demo-acmebeamer.tex"
 %%% End:

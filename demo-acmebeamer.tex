@@ -1,0 +1,25 @@
+\documentclass[utf8, a4paper, handout]{beamer}
+
+\usepackage[english] {babel}
+\usepackage[T1]      {fontenc}
+
+\usepackage{amsmath, amsfonts, lmodern, graphicx}
+\renewcommand*\rmdefault\sfdefault
+
+\usepackage{acmebeamer}
+\usepackage{tikz}
+
+
+
+
+\setuppagenumbers{style=plain}
+
+\setupfootline{
+  frame={leftmargin=1em, rightmargin=1em},
+  left=date, center=page numbers, right=author}
+
+\setupheadline{
+  left=section, center=title, right/subsection=squares}
+
+
+\input{content}

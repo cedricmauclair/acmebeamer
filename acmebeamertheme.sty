@@ -1,4 +1,4 @@
-% Time-stamp: <2011-06-22 14:02:46 cmauclai>
+% Time-stamp: <2011-06-23 10:59:47 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -24,7 +24,6 @@
 
 \RequirePackage{acmebeamer}
 
-
 \DeclareOption{portrait}{%
   \@tempdima=\beamer@paperwidth
   \beamer@paperwidth=\beamer@paperheight
@@ -35,6 +34,11 @@
 
 \DeclareOption{defaultblocks}{%
   \AtBeginDocument{\usebeamerblocks}}
+
+\DeclareOption {fonts}     {\AtBeginDocument{\plain@fonts}}
+\DeclareOption {colors}    {\AtBeginDocument{\plain@colors}}
+\DeclareOption {templates} {\AtBeginDocument{\plain@templates}}
+\DeclareOption {full}      {\AtBeginDocument{\plain@fonts\plain@colors\plain@templates}}
 
 \ExecuteOptions{acmeblocks}
 
@@ -53,8 +57,12 @@
 \definecolor{darkyellow}{rgb}{.95,.95,.85}
 
 % additional colors
-\colorlet{darkgreen} {green!60!black}
-\colorlet{darkred}   {red!60!black}
+\colorlet {darkgreen} {green!60!black}
+\colorlet {darkred}   {red!60!black}
+
+\colorlet {blue}  {solidblue}
+\colorlet {red}   {darkred}
+\colorlet {green} {darkgreen}
 
 % general definitions
 \def\plain@colors{
@@ -238,7 +246,7 @@
 
 \def\plain@fonts{
   \setbeamerfont{normal text}{size=\normalsize}
-  \setbeamerfont{emphasis}{series=\bfseries}
+  \setbeamerfont{emphasis}{family=\sffamily, series=\bfseries}
 
   \setbeamerfont{alerted text}{series=\bfseries}
   \setbeamerfont{example text}{}
@@ -352,32 +360,6 @@
 %>>
 %<< [··· definitions ···] >>
 
-% [·page numbers·]
-\setuppagenumbers{style=plain}
-
-% [·headline·]
-\setupheadline{%
-  left=title,
-  right=page numbers,
-  frame={%
-    width=\hsize,
-    leftmargin=\leftmargin,
-    rightmargin=\rightmargin,
-    topmargin=2pt,
-    bottommargin=0pt}}
-
-% [·footline·]
-\setupfootline{%
-  left=empty,
-  center=empty,
-  right=empty,
-  frame={
-    width=\hsize,
-    leftmargin=\leftmargin,
-    rightmargin=\rightmargin,
-    topmargin=0pt,
-    bottommargin=1pt}}
-
 % Use the following to keep the current values of
 % \{blockname}{title|body|frame}options :
 %
@@ -416,112 +398,128 @@
 \let\oldsection\section
 \def\section{\let\subsecname\@empty\oldsection}
 
-
-
-\def\acmeplaintheme{%
-  % [·fonts & colors·]
-  \plain@fonts
-  \plain@colors
-  % [·head/footline·]
-  \setbeamertemplate{headline}[acme]
-  \setbeamertemplate{footline}[acme]
-  % [·title page·]
-  \setbeamertemplate{title page}{%
-    \begin{tikzpicture}[remember picture, overlay]%
-      %% thin line towards the bottom
-      \begingroup
-        \usebeamercolor{structure}
-        \draw [color=fg, very thick]%
-          ([xshift=\leftmargin, yshift=.15\paperheight]
-            current page.south west)%
-          coordinate (reference) -- ++(\hsize,0);
-      \endgroup%
-      %% tilegraphic above that line
-      \node [anchor=south west, inner sep=0pt]%
-        at ([yshift=2pt]reference)%
-        {\usebeamer{institute}\inserttitlegraphic};%
-      %% title(/subtitle) below that line
-      \node [anchor=north west, inner sep=0pt]%
-        at ([yshift=-2pt]reference)%
-        {\vbox\bgroup
-          \hbox{\usebeamer{title}\strut\inserttitle}%
-          \ifx\insertsubtitle\@empty\else
-            \hbox{\usebeamer{subtitle}\strut\insertsubtitle}\fi%
-          \egroup};%
-   \end{tikzpicture}}%
-  % [·frametitle·]
-  \setbeamertemplate{frametitle}[acme]{%
-    \ifbeamer@plainframe\else
-      \framed[frame=top, width=\hsize,
-              offset=0pt, topoffset=2pt,
-              options={draw=fg, fill=normal text.bg, very thick}]%
+% [·titlepage·]
+\defbeamertemplate{title page}{acme}{%
+  \begin{tikzpicture}[remember picture, overlay]%
+    %% thin line towards the bottom
+    \begingroup
+      \usebeamercolor{structure}
+      \draw [color=fg, very thick]%
+        ([xshift=\leftmargin, yshift=.15\paperheight]
+          current page.south west)%
+        coordinate (reference) -- ++(\hsize,0);
+    \endgroup%
+    %% tilegraphic above that line
+    \node [anchor=south west, inner sep=0pt]%
+      at ([yshift=2pt]reference)%
+      {\usebeamer{institute}\vbox{\inserttitlegraphic}};%
+    %% title(/subtitle) below that line
+    \node [anchor=north west, inner sep=0pt]%
+      at ([yshift=-8pt]reference)%
       {\vbox\bgroup
-         \hbox to \hsize{\usebeamer{frametitle}%
-           \vrule width0pt height1.2\strutht
-             \ifx\insertframetitle\@empty
-               \ifx\subsecname\@empty
-               \ifx\secname\@empty
-               \else\secname\fi
-               \else\subsecname\fi
-             \else\insertframetitle\fi\hfil}
-         \vskip-.15\baselineskip
-         \hbox to \hsize{\usebeamer{framesubtitle}%
-           \vrule width0pt height1.2\strutht depth\strutdp
-           \insertframesubtitle\hfil}
-       \egroup}\fi}
+        \hbox{\usebeamer{title}\strut\vbox{\inserttitle}}%
+        \ifx\insertsubtitle\@empty\else
+          \hbox{\usebeamer{subtitle}\strut\vbox{\insertsubtitle}}\fi%
+        \egroup};%
+  \end{tikzpicture}}%
+
+% [·frametitle·]
+\defbeamertemplate{frametitle}{acme}{%
+  \ifbeamer@plainframe\else
+    \framed[frame=top, width=\hsize,
+            offset=0pt, topoffset=2pt,
+            options={draw=fg, fill=normal text.bg, very thick}]%
+    {\vbox\bgroup
+       \hbox to \hsize{\usebeamer{frametitle}%
+         \vrule width0pt height1.2\strutht
+           \ifx\insertframetitle\@empty
+             \ifx\subsecname\@empty
+             \ifx\secname\@empty
+             \else\secname\fi
+             \else\subsecname\fi
+           \else\insertframetitle\fi\hfil}
+       \vskip-.15\baselineskip
+       \hbox to \hsize{\usebeamer{framesubtitle}%
+         \vrule width0pt height1.2\strutht depth\strutdp
+         \insertframesubtitle\hfil}
+     \egroup}\fi}
+
+% [·items·]
+\defbeamertemplate{itemize item}{acme}
+  {\unitsquare[fill, scale=5, rounded corners=1, yshift=.2]}
+
+\defbeamertemplate{itemize subitem}{acme}
+  {\unittriangle[fill, scale=4, rounded corners=.2, yshift=.25]}
+
+\defbeamertemplate{itemize subsubitem}{acme}
+  {\unittriangle[draw, scale=3, rounded corners=.2, yshift=.3333]}
+
+% [·bibliography·] from beamerprogressbar
+\defbeamertemplate{bibliography item}{acme}{%
+  \begin{tikzpicture}[rounded corners=1pt, x=9mm, y=9mm]
+    \useasboundingbox (0, 0.2) rectangle (0.5, 0.7);
+    \path [fill=bg!85!blue]
+      (0, 0.25) rectangle (0.4, 0.5);
+    \path [shade, bottom color=bg, top color=bg!85!blue]
+      (0, 0) -- (0.3, 0) -- (0.4, 0.12) -- (0.4, 0.3) -- (0, 0.3) -- cycle;
+    \path [shade, left color=bg, right color=bg!85!blue]
+      (0,0.27) .. controls (0.25,0.25) .. (0.4,0.5) -- (0,0.5) -- cycle;
+    \path [fill=bg!90!blue]
+      (0,0) rectangle (0.3,0.05);
+    \path [shade, left color=bg!95!blue, right color=bg!90!blue]
+      (0,0) rectangle (0.05,0.5);
+    \path [shade, left color=bg,right color=bg!80!black, shading angle=45]
+      (0.3,0) -- (0.3,0.12) -- (0.4,0.12) -- cycle;
+    \path [draw=fg!35!bg]
+      (0,0) -- (0.3,0) -- (0.4,0.12) -- (0.4,0.5) -- (0,0.5) -- cycle;
+    \path [draw=fg!35!bg]
+      (0.3,0) -- (0.3,0.12) -- (0.4,0.12);
+  \end{tikzpicture}}
+
+% [·templates·]
+\def\plain@templates{%
+  % [·text margins·]
+  \setbeamersize {text margin left=1em, text margin right=5em}
+
+  % [·headline/footline·]
+  \setbeamertemplate {headline} [acme]
+  \setbeamertemplate {footline} [acme]
+  \setuppagenumbers  {style=plain}
+  \setupheadline     {left=title, right=page numbers}
+  \setupfootline     {right=author}
+
+  % [·title page·]
+  \setbeamertemplate {title page} [acme]
+  \setuptitlepage   {logo=institute}
+
+  % [·frametitle·]
+  \setbeamertemplate {frametitle} [acme]
+
   % [·items·]
-  % \let\dododoitem\item
-  % \def\dodoitem{\dododoitem}
-  % \def\doitem{\dodoitem}
-  % \def\item{\afterassignment\doitem
-  %   \parskip=.5\baselineskip minus.5\baselineskip}
-  \setbeamertemplate{itemize item}
-    {\unitsquare[fill, scale=5, rounded corners=1, yshift=.2]}
-  \setbeamertemplate{itemize subitem}
-    {\unittriangle[fill, scale=4, rounded corners=.2, yshift=.25]}
-  \setbeamertemplate{itemize subsubitem}
-    {\unittriangle[draw, scale=3, rounded corners=.2, yshift=.3333]}
-  \setbeamertemplate{bibliography item}{%
-    \begin{tikzpicture}[rounded corners=1pt, x=9mm, y=9mm]
-      \useasboundingbox (0, 0.2) rectangle (0.5, 0.7);
-      \path [fill=bg!85!blue]
-        (0, 0.25) rectangle (0.4, 0.5);
-      \path [shade, bottom color=bg, top color=bg!85!blue]
-        (0, 0) -- (0.3, 0) -- (0.4, 0.12) -- (0.4, 0.3) -- (0, 0.3) -- cycle;
-      \path [shade, left color=bg, right color=bg!85!blue]
-        (0,0.27) .. controls (0.25,0.25) .. (0.4,0.5) -- (0,0.5) -- cycle;
-      \path [fill=bg!90!blue]
-        (0,0) rectangle (0.3,0.05);
-      \path [shade, left color=bg!95!blue, right color=bg!90!blue]
-        (0,0) rectangle (0.05,0.5);
-      \path [shade, left color=bg,right color=bg!80!black, shading angle=45]
-        (0.3,0) -- (0.3,0.12) -- (0.4,0.12) -- cycle;
-      \path [draw=fg!35!bg]
-        (0,0) -- (0.3,0) -- (0.4,0.12) -- (0.4,0.5) -- (0,0.5) -- cycle;
-      \path [draw=fg!35!bg]
-        (0.3,0) -- (0.3,0.12) -- (0.4,0.12);
-    \end{tikzpicture}}
-    \let\bibliographyorig\bibliography
-    \def\bibliography##1{%
-      \begin{block}
-        [bodyoptions={offset=0pt},
-         frameoptions={%
-           topoffset=1ex,  bottomoffset=1.5ex,
-           leftoffset=1em, rightoffset=1em,
-           options={%
-             draw=normal text.fg!30!darkyellow,
-             fill=darkyellow,
-             rounded corners=2pt}}]
-        \bibliographyorig{##1}
-      \end{block}}}
+  \setbeamertemplate {itemize item}       [acme]
+  \setbeamertemplate {itemize subitem}    [acme]
+  \setbeamertemplate {itemize subsubitem} [acme]
+
+  % [·bibliography·]
+  \setbeamertemplate{bibliography item}[acme]
+  \let\bibliographyorig\bibliography
+  \def\bibliography##1{%
+    \begin{block}
+      [bodyoptions={offset=0pt},
+       frameoptions={%
+         topoffset=1ex,  bottomoffset=1.5ex,
+         leftoffset=1em, rightoffset=1em,
+         options={%
+           draw=normal text.fg!30!darkyellow,
+           fill=darkyellow,
+           rounded corners=2pt}}]
+       \bibliographyorig{##1}
+     \end{block}}}
 
 %>>
 
-\acmeplaintheme
-
-
 
 %%% Local Variables:
-%%% TeX-master: "./demo.tex"
+%%% TeX-master: "./demo-acmebeamertheme.tex"
 %%% End:
 
