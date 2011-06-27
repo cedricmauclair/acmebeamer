@@ -94,6 +94,7 @@
 
 \newcommand*\highlight[1]{{\usebeamercolor[fg]{structure}\bfseries#1}}
 
+% Better font switches
 \let\bf\bfseries
 \let\bx\bxseries
 \let\sl\slshape
@@ -120,7 +121,7 @@
 \title{Documentation \pkg{acmebeamer}}
 \author{Cédric Mauclair}
 \institute{Onera/DTIM}
-\date{February 7, 2011}
+\date{June 27, 2011}
 
 \maketitle
 
@@ -148,7 +149,7 @@
 \\maketitle\oarg{\meta{options to \\setuptitlepage\oarg{…}}}
           \oarg{\meta{options to \benv{frame}\oarg{…}}}
 \end{semiverbatim}
-  \item Use \cs{setuptitlepage}\oarg{…} to set options.
+  \item Use \cs{setuptitlepage}\marg{…} to set options.
     \begin{itemize}
     \item \type{lineoffset}: line v-position of default template;
     \item \type{logo}: \type{institute} or \type{\default{none}};
@@ -181,7 +182,7 @@
 
 \begin{frame}[fragile]
 
-  Use \cs{setuppagenumbers}\oarg{…} to set options.
+  Use \cs{setuppagenumbers}\marg{…} to set options.
   \begin{itemize}
   \item \type{style}: \type{plain}, \type{boxed} or
     \type{\default{none}};
@@ -197,7 +198,7 @@
 
 \begin{frame}
 
-  Use \cs{setupheadline}/\cs{setupfootline}\oarg{…} to set options.
+  Use \cs{setupheadline}/\cs{setupfootline}\marg{…} to set options.
   \begin{itemize}
   \item \type{left}/\type{center}/\type{right}:
     (\type{sub})\type{section}, \type{title}, \type{subtitle},
@@ -327,7 +328,7 @@
     \begin{itemize}
     \item \highlight{set all}: use \cs{setupblocks}\oarg{\meta{options}};
     \item \highlight{set specific block(s)}: use\\
-      \cs{setupblock}(\type s)\oarg{\meta{name(,…)}}\oarg{\meta{options}}.
+      \cs{setupblock}(\type s)\oarg{\meta{name(,…)}}\marg{\meta{options}}.
     \end{itemize}
   \end{itemize}
 
