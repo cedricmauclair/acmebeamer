@@ -1,4 +1,4 @@
-% Time-stamp: <2011-06-23 10:59:47 cmauclai>
+% Time-stamp: <2011-06-27 10:50:14 cmauclai>
 %
 % Copyright 2010 by Cedric Mauclair
 %
@@ -35,14 +35,10 @@
 \DeclareOption{defaultblocks}{%
   \AtBeginDocument{\usebeamerblocks}}
 
-\DeclareOption {fonts}     {\AtBeginDocument{\plain@fonts}}
-\DeclareOption {colors}    {\AtBeginDocument{\plain@colors}}
-\DeclareOption {templates} {\AtBeginDocument{\plain@templates}}
-\DeclareOption {full}      {\AtBeginDocument{\plain@fonts\plain@colors\plain@templates}}
-
-\ExecuteOptions{acmeblocks}
-
-\ProcessOptions
+\DeclareOption {fonts}     {\plain@fonts}
+\DeclareOption {colors}    {\plain@colors}
+\DeclareOption {templates} {\plain@templates}
+\DeclareOption {full}      {\plain@fonts\plain@colors\plain@templates}
 
 %>>
 
@@ -479,7 +475,7 @@
 % [·templates·]
 \def\plain@templates{%
   % [·text margins·]
-  \setbeamersize {text margin left=1em, text margin right=5em}
+  \setbeamersize {text margin left=1em, text margin right=1em}
 
   % [·headline/footline·]
   \setbeamertemplate {headline} [acme]
@@ -517,6 +513,10 @@
      \end{block}}}
 
 %>>
+
+\ExecuteOptions{acmeblocks}
+
+\ProcessOptions
 
 
 %%% Local Variables:
